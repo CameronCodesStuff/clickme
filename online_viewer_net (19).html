@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicker Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            flex-direction: column;
+        }
+        #clickButton {
+            padding: 20px 40px;
+            font-size: 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        #clickButton:active {
+            transform: scale(0.95);
+            background-color: #45a049;
+        }
+        #counter {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <button id="clickButton">Click Me!</button>
+    <div id="counter">Total Clicks: 0</div>
+
+    <script>
+        // Load saved clicks from localStorage
+        let clicks = localStorage.getItem('clickerGameClicks') || 0;
+        document.getElementById('counter').textContent = `Total Clicks: ${clicks}`;
+
+        // Set up click event
+        document.getElementById('clickButton').addEventListener('click', function() {
+            clicks++;
+            document.getElementById('counter').textContent = `Total Clicks: ${clicks}`;
+            
+            // Save to localStorage
+            localStorage.setItem('clickerGameClicks', clicks);
+            
+            // Add a little visual feedback
+            this.style.boxShadow = '0 0 15px #4CAF50';
+            setTimeout(() => {
+                this.style.boxShadow = 'none';
+            }, 200);
+        });
+
+        // Reset button (hidden feature - double click the counter)
+        document.getElementById('counter').addEventListener('dblclick', function() {
+            if (confirm('Are you sure you want to reset your click count?')) {
+                clicks = 0;
+                localStorage.setItem('clickerGameClicks', clicks);
+                this.textContent = `Total Clicks: ${clicks}`;
+            }
+        });
+    </script>
+</body>
+</html>
